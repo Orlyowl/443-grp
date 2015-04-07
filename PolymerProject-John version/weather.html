@@ -1,0 +1,201 @@
+<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<link rel="import" href="bower_components/core-ajax/core-ajax.html">
+<link href="bower_components/core-icons/core-icons.html" rel="import">
+<link href="bower_components/core-icon-button/core-icon-button.html" rel="import">
+<link href="bower_components/core-animated-pages/core-animated-pages.html" rel="import">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+
+		
+
+  <script src='http://codepen.io/assets/libs/fullpage/jquery.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.simpleWeather/3.0.2/jquery.simpleWeather.min.js'></script>
+  <script src="js/index.js"></script>
+		
+<polymer-element name="nested-animated-pages">
+<template>
+<style>
+body {
+  font: 13px 'Open Sans', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+
+}
+
+#weather {
+  width: 425px;
+  margin: 0px auto;
+  text-align: center;
+  text-transform: uppercase;
+  background-color:  #4285f4;
+	
+}
+
+#weather h2 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: 150px;
+  font-weight: 300;
+  text-align: center;
+  text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+#weather ul {
+  margin: 0;
+  padding: 0;
+
+}
+
+#weather li {
+  background: #fff;
+  background: #4285f4;;
+  padding: 20px;
+  display: inline-block;
+  border-radius: 5px;
+  
+
+}
+#weather2 {
+  width: 425px;
+  margin: 0px auto;
+  text-align: center;
+  text-transform: uppercase;
+  background-color:  #4285f4;
+	
+}
+
+#weather2 h2 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: 150px;
+  font-weight: 300;
+  text-align: center;
+  text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+#weather2 ul {
+  margin: 0;
+  padding: 0;
+
+}
+
+#weather2 li {
+  background: #fff;
+  background: #4285f4;;
+  padding: 20px;
+  display: inline-block;
+  border-radius: 5px;
+  
+
+}
+    :host {
+      display: block;
+      position: relative;
+    }
+
+    core-animated-pages {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .tall-toolbar {
+      box-sizing: border-box;
+      height: 500px;
+    }
+
+    .tall-toolbar.colored {
+  
+      color: white;
+    }
+
+    .tall-toolbar [flex] {
+      font-size: 1.5em;
+	  
+    }
+
+    core-icon-button {
+      margin: 16px;
+    }
+
+
+    .square {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      left: 16px;
+      top: 175px;
+    }
+	.flex
+	{
+	width: 500px;
+	  background-color:  #4285f4;
+	}
+ 		  
+  </style>
+  <core-animated-pages id="pages" selected="{{page}}" selectedItem="{{selectedItem}}" transitions="hero-transition" no-transition?="{{noTransition}}">
+	
+<section id="page1" cross-fade>
+	<div class="tall-toolbar colored" style="background-color:#4285f4;" layout vertical hero-id="weather" hero?="{{page === 0 || !noTransition}}">
+		<div layout horizontal center>
+			<core-icon-button icon="clear" on-tap="{{back}}"></core-icon-button>
+			<div flex>
+				Allendale
+			</div>
+			<core-icon-button icon="arrow-forward" on-tap="{{transition}}"></core-icon-button> 
+		</div>
+        <div class="flex" flex>
+			<div id="weather">
+	
+			</div>
+		</div>
+	</div>
+	<div flex class="body">
+	</div>
+</section>
+
+<section id="page2" cross-fade>
+	<div class="tall-toolbar colored" style="background-color:#4285f4;" layout vertical hero-id="weather" hero?="{{page === 1 || !noTransition}}">	
+		<div layout horizontal center>
+			<core-icon-button icon="clear" on-tap="{{back}}"></core-icon-button>
+			<div class="flex" flex>
+			Grand Rapids		
+			</div>
+			<core-icon-button icon="arrow-forward" on-tap="{{transition}}"></core-icon-button> 
+		</div>
+        <div flex flex class="flex" >
+			<div id="weather2">
+		
+			</div>
+		</div>
+  
+    </div>
+	 <div flex class="flex" >
+	 </div>
+</section>
+
+  </core-animated-pages>
+</template>
+<script>
+
+  Polymer({
+
+    publish: {
+      page: {value: 0}
+    },
+
+    selectedItem: null,
+    noTransition: true,
+
+    back: function() {
+      this.noTransition = true;
+      this.fire('nested-back');
+    },
+
+    transition: function() {
+      this.noTransition = false;
+      this.page = this.page === 0 ? 1 : 0;
+    }
+
+  });
+</script>
+</polymer-element>
