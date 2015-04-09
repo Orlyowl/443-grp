@@ -1,0 +1,389 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>CIS 443 Polymer Project</title>
+
+  <meta name="viewport" 
+  content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+  <script src="../bower_components/webcomponentsjs/webcomponents.js">
+  </script>
+
+    <link rel="import" href="../polymer/polymer.html">
+    <link rel="import" href="../bower_components/core-icon-button/core-icon-button.html">
+    <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+    <link rel="import" href="../bower_components/font-roboto/roboto.html">
+    <link rel="import" href="../bower_components/google-map/google-map.html">
+    <link rel="import" href="../bower_components/core-icons/maps-icons.html">
+    <link rel="import" href="../bower_components/app-chart/app-chart.html">
+    <link rel="import" href="../bower_components/core-icons/core-icons.html">
+    <link rel="import" href="../bower_components/core-icons/image-icons.html">
+	
+	  <link rel="import" href="../bower_components/paper-elements/paper-elements.html">
+    <link href="../weather.html" rel="import">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+	<script src='http://codepen.io/assets/libs/fullpage/jquery.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.simpleWeather/3.0.2/jquery.simpleWeather.min.js'></script>
+	<script src="../js/index.js"></script>
+	
+  <style>     
+      google-map {
+        display: block;
+        height: 500px;
+      } 
+      #main_toolbar {
+        background-color: rgb(66, 184, 221);
+      }
+  html,body {
+    height: 100%;
+    margin: 0;
+    background-color: #E5E5E5;
+    font-family: 'RobotoDraft', sans-serif;
+  }
+  .container {
+    width: 80%;
+    margin: 50px auto;
+  }
+  @media (min-width: 481px) {
+    #tabs {
+      width: 200px;
+    }
+    .container {
+      width: 400px;
+    }
+  }
+  core-icon[icon="image:timer"] {
+			
+			height: 50px;
+			width: 50px;
+		}
+
+		.button-main {
+			background: rgb(66, 184, 221);
+			color: #ffffff;
+			font-size: 110%;
+			height: 250px;
+			width: 250px;
+		}
+		.button-main2 {
+			background: rgb(66, 184, 221);
+			color: #ffffff;
+			cursor: pointer;
+			font-size: 24px;
+			height: 250px;
+			width: 250px;
+		}
+		
+		<!-- John  Style	  -->
+    nested-weather {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+	  
+    }
+	core-animated-pages {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+     }
+
+    section {
+        text-align: center;
+       
+    }
+
+    .square {
+        display: inline-block;
+        margin: 8px;
+        padding: 8px;
+        width: 270px;
+        height: 200px;
+        background-color:  #4285f4;
+        color: #4285f4;
+      }
+	.weatherbut {
+	   height: 50px;
+		width: 50px;
+	  color: white;
+	  
+	 }
+	.weatherselect {
+	    float: left;
+		margin-left: 955px; 
+		margin-top: 350px;
+		height: 50px;
+		width: 250px;
+		color: white;
+	  
+	}
+		
+		
+  </style>
+
+</head>
+
+<body unresolved>
+     <core-toolbar id="main_toolbar">
+      <core-icon-button icon="menu" id="core_icon_button"></core-icon-button>
+      <div id="div" flex>Grand Valley State University Dashboard</div>
+    </core-toolbar>
+    <br />
+    <div id="weatherhours">
+        <button class="button-main" id="button-main" onclick="isItOpen()">
+            <core-icon icon="image:timer"></core-icon>
+            Rec Center Hours
+        </button>
+        <button class="button-main2" id="button-main2" onclick="isItOpen2()">
+            <core-icon icon="image:timer"></core-icon> <br />
+            Library Hours
+        </button>
+    </div>
+			<polymer-element name="nested-weather">
+  <template>
+    <core-animated-pages class="weatherselect"  selected="{{page}}" transitions="hero-transition cross-fade">
+
+      <section on-tap="{{transition}}" layout horizontal center-justified>
+
+        <div class="square" id="weather1" hero-id="weather" hero?="{{subpage === 0}}" cross-fade?="{{subpage !== 0}}">
+		  <core-icon class="weatherbut" icon="cloud"></core-icon>  <font color="White">Weather at GVSU</font> 
+		</div>
+		
+   
+
+      </section>
+
+      <nested-animated-pages page="{{subpage}}" on-nested-back="{{back}}"></nested-animated-pages>
+
+    </core-animated-pages>
+  </template>
+  <script>
+
+    Polymer('nested-weather', {
+
+      page: 0,
+      subpage: 0,
+
+      transition: function(e) {
+
+        var el = e.target;
+        if (el.id === "weather1") {
+          this.subpage = 0;
+        } else {
+          this.subpage = 1;
+        }
+
+        setTimeout(function() {
+          this.page = 1;
+        }.bind(this), 200);
+      },
+
+      back: function() {
+        this.page = 0;
+      }
+
+    });
+
+  </script>
+  </polymer-element>
+
+  <nested-weather></nested-weather>
+    <br /><br />
+    <div id="AllendaleMap">
+        <p>Grand Valley Allendale Campus Map:</p>
+        <google-map latitude="42.971854"
+                    longitude="-85.891605">
+            disableDefaultUI>
+            <google-map-marker latitude="42.971854"
+                               longitude="-85.891605">
+            </google-map-marker>
+        </google-map>
+    </div>
+    <br /><br />
+    <div id="GrandRapidsMap">
+        <p>Grand Valley Pew Campus Map:</p>
+        <google-map latitude="42.963718"
+                    longitude="-85.681070">
+            disableDefaultUI>
+            <google-map-marker latitude="42.963718"
+                               longitude="-85.681070">
+            </google-map-marker>
+        </google-map>
+    </div>
+    <br /><br />
+    <div id="Enrollment">
+        <p>Grand Valley Total Enrollment Over Time:</p>
+        <p>
+            <app-chart type="line" responsive>
+                <app-chart-axis type="y"></app-chart-axis>
+                <app-chart-axis type="time"></app-chart-axis>
+                <app-chart-series name="Enrollment" color="#3498db">
+                    <app-chart-data x="1230768000" y="24408"></app-chart-data>
+                    <app-chart-data x="1262304000" y="24541"></app-chart-data>
+                    <app-chart-data x="1293840000" y="24662"></app-chart-data>
+                    <app-chart-data x="1325376000" y="24654"></app-chart-data>
+                    <app-chart-data x="1356998400" y="24477"></app-chart-data>
+                    <app-chart-data x="1388534400" y="25094"></app-chart-data>
+                    <app-chart-data x="1420070400" y="25094"></app-chart-data>
+                </app-chart-series>
+            </app-chart>
+        </p>
+    </div>
+    <br /><br />
+    <div id="MalevsFemaleEnrollment">
+        <p>Male (Blue) vs. Female (Orange) Enrollment:</p>
+        <app-chart type="line" responsive>
+            <app-chart-axis type="y"></app-chart-axis>
+            <app-chart-axis type="time"></app-chart-axis>
+            <app-chart-series name="Males" color="#3498db">
+                <app-chart-data x="1230768000" y="8498"></app-chart-data>
+                <app-chart-data x="1262304000" y="8692"></app-chart-data>
+                <app-chart-data x="1293840000" y="8907"></app-chart-data>
+                <app-chart-data x="1325376000" y="8832"></app-chart-data>
+                <app-chart-data x="1356998400" y="8883"></app-chart-data>
+                <app-chart-data x="1388534400" y="8962"></app-chart-data>
+                <app-chart-data x="1420070400" y="8962"></app-chart-data>
+            </app-chart-series>
+            <app-chart-series name="Females" color="#e67e22">
+                <app-chart-data x="1230768000" y="12229"></app-chart-data>
+                <app-chart-data x="1262304000" y="12121"></app-chart-data>
+                <app-chart-data x="1293840000" y="12213"></app-chart-data>
+                <app-chart-data x="1325376000" y="12393"></app-chart-data>
+                <app-chart-data x="1356998400" y="12253"></app-chart-data>
+                <app-chart-data x="1388534400" y="12561"></app-chart-data>
+                <app-chart-data x="1420070400" y="12561"></app-chart-data>
+            </app-chart-series>
+        </app-chart>
+    </div>
+    <br /><br />
+    <div id="Enrollment">
+        <p>Freshman Enrollment:</p>
+        <p>
+            <app-chart type="line" responsive>
+                <app-chart-axis type="y"></app-chart-axis>
+                <app-chart-axis type="time"></app-chart-axis>
+                <app-chart-series name="Enrollment" color="#3498db">
+                    <app-chart-data x="1230768000" y="3775"></app-chart-data>
+                    <app-chart-data x="1262304000" y="3534"></app-chart-data>
+                    <app-chart-data x="1293840000" y="3927"></app-chart-data>
+                    <app-chart-data x="1325376000" y="4005"></app-chart-data>
+                    <app-chart-data x="1356998400" y="4124"></app-chart-data>
+                    <app-chart-data x="1388534400" y="4226"></app-chart-data>
+                    <app-chart-data x="1420070400" y="4226"></app-chart-data>
+                </app-chart-series>
+            </app-chart>
+        </p>
+    </div>
+    <br /><br />
+    <div id="Enrollment">
+        <p>Average High School GPA</p>
+        <p>
+            <app-chart type="line" responsive>
+                <app-chart-axis type="y"></app-chart-axis>
+                <app-chart-axis type="time"></app-chart-axis>
+                <app-chart-series name="Enrollment" color="#3498db">
+                    <app-chart-data x="1230768000" y="3.53"></app-chart-data>
+                    <app-chart-data x="1262304000" y="3.53"></app-chart-data>
+                    <app-chart-data x="1293840000" y="3.51"></app-chart-data>
+                    <app-chart-data x="1325376000" y="3.5"></app-chart-data>
+                    <app-chart-data x="1356998400" y="3.52"></app-chart-data>
+                    <app-chart-data x="1388534400" y="3.54"></app-chart-data>
+                    <app-chart-data x="1420070400" y="3.54"></app-chart-data>
+                </app-chart-series>
+            </app-chart>
+        </p>
+    </div>
+</body>
+
+<script language="javascript" type="text/javascript">
+    function isItOpen() {
+        var date = new Date();
+        var day = date.getDay();
+        var time = date.getHours();
+        var x = document.getElementById("button-main");
+
+        if (day == 0 && time >= 11 && time <= 23) {
+            x.style.background = "green";
+            x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "11:00am - 12:00am";
+        }
+        else if (day == 1 && time >= 6 && time <= 23) {
+            x.style.background = "green";
+            x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "6:00am - 12:00am";
+        }
+        else if (day == 2 && time >= 6 && time <= 23) {
+            x.style.background = "green";
+            x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "6:00am - 12:00am";
+        }
+        else if (day == 3 && time >= 6 && time <= 23) {
+            x.style.background = "green";
+            x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "6:00am - 12:00am";
+        }
+        else if (day == 4 && time >= 6 && time <= 23) {
+            x.style.background = "green";
+            x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "6:00am - 12:00am";
+        }
+        else if (day == 5 && time >= 6 && time <= 20) {
+            x.style.background = "green";
+            x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "6:00am - 9:00pm";
+        }
+        else if (day == 6 && time >= 8 && time <= 19) {
+            x.style.background = "green";
+            x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "8:00am - 9:00pm";
+        }
+        else {
+            x.style.background = "red";
+            x.innerHTML = "CLOSED";
+        }
+    }
+    </script>
+<script language="javascript" type="text/javascript">
+            function isItOpen2() {
+                var date = new Date();
+                var day = date.getDay();
+                var time = date.getHours();
+                var x = document.getElementById("button-main");
+
+                if (day == 0 && time >= 10 && time <= 25) {
+                    x.style.background = "green";
+                    x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "10:00am - 2:00am";
+                }
+                else if (day == 1 && time >= 7 && time <= 25) {
+                    x.style.background = "green";
+                    x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "7:00am - 2:00am";
+                }
+                else if (day == 2 && time >= 7 && time <= 25) {
+                    x.style.background = "green";
+                    x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "7:00am - 2:00am";
+                }
+                else if (day == 3 && time >= 7 && time <= 25) {
+                    x.style.background = "green";
+                    x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "7:00am - 2:00am";
+                }
+                else if (day == 4 && time >= 7 && time <= 25) {
+                    x.style.background = "green";
+                    x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "7:00am - 2:00am";
+                }
+                else if (day == 7 && time >= 7 && time <= 20) {
+                    x.style.background = "green";
+                    x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "7:00am - 9:00pm";
+                }
+                else if (day == 10 && time >= 10 && time <= 20) {
+                    x.style.background = "green";
+                    x.innerHTML = "OPEN" + "<br />" + "<br />" + "Today's hours are:" + "<br />" + "10:00am - 9:00pm";
+                }
+                else {
+                    x.style.background = "red";
+                    x.innerHTML = "CLOSED";
+                }
+
+            }
+</script>
+
+</html>
